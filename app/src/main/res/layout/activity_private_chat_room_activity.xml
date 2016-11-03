@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2b2e2e"
+    tools:context="com.google.firebase.codelab.friendlychat.private_chatRoom_activity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/private_chat_room_messageRecyclerView"
+        android:layout_width="match_parent"
+        android:background="#dfbebe"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/private_chat_room_linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/private_chat_room_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/private_chat_room_messageEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.45" />
+
+        <Button
+            android:id="@+id/private_chat_room_sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="SEND" />
+    </LinearLayout>
+</RelativeLayout>

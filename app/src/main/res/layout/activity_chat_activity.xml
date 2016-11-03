@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.google.firebase.codelab.friendlychat.chat_activity"
+    android:weightSum="1">
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.google.firebase.codelab.friendlychat.users_list_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:layout="@layout/fragment_users_list_fragment"
+        android:layout_weight="0.23" />
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.google.firebase.codelab.friendlychat.user_chat_rooms"
+        android:layout_width="match_parent"
+        android:layout_height="98dp"
+        tools:layout="@layout/fragment_user_chat_rooms"
+        android:layout_weight="0.87" />
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pager">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>
