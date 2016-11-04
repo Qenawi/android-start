@@ -4,13 +4,10 @@
     android:orientation="vertical"
     android:background="#000000"
     tools:context="com.google.firebase.codelab.friendlychat.users_list_fragment">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:textColor="#ffffff"
-        android:text="@string/hello_blank_fragment" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffff"
+        android:background="#d4dede"
         android:id="@+id/user_list"
         />
 </LinearLayout>

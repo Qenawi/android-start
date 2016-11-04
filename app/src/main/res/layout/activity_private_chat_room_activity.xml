@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2b2e2e"
+    android:background="#d4dede"
     tools:context="com.google.firebase.codelab.friendlychat.private_chatRoom_activity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/private_chat_room_messageRecyclerView"
         android:layout_width="match_parent"
-        android:background="#dfbebe"
+        android:background="#d4dede"
         android:layout_height="match_parent"
         android:layout_above="@+id/private_chat_room_linearLayout" />
 

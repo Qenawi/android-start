@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -27,13 +31,19 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
     private String push_key;
     private DatabaseReference test_curnt_user_list_ref;
     private DatabaseReference mFirebaseDatabaseReference;
+    private ViewPager viewPager;
+    MyPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_activity);
+        setTitle("Chatter");
         _email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        viewPager=(ViewPager)findViewById(R.id.pager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapterViewPager);
         //  replace();
     }
 
@@ -231,4 +241,40 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
            }
        });
    }
+    //----------------pager adapter
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 2;
+
+        public MyPagerAdapter(FragmentManager fragmentManager)
+        {
+            super(fragmentManager);
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount()
+        {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return users_list_fragment.newInstance(0, "Fiends");
+                case 1: // Fragment # 0 - This will show FirstFragment different title
+                    return user_chat_rooms.newInstance(1, "Chats");
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
+
+    }//pager adapter
 }// chat ctivity class

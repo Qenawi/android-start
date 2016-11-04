@@ -32,11 +32,26 @@ public class users_list_fragment extends android.support.v4.app.Fragment {
     public users_list_fragment() {
         // Required empty public constructor
     }
-
+//
+private String title;
+    private int page;
+    public static users_list_fragment newInstance(int page, String title) {
+        users_list_fragment fragmentFirst = new users_list_fragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+ //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        //
+        page = getArguments().getInt("someInt", 0);
+        title = getArguments().getString("someTitle");
+        //
     }
 
     @Override

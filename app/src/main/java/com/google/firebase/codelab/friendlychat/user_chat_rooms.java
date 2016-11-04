@@ -45,11 +45,26 @@ public class user_chat_rooms extends android.support.v4.app.Fragment {
     public user_chat_rooms() {
         // Required empty public constructor
     }
-
+    //----------------
+    private String title;
+    private int page;
+    public static user_chat_rooms newInstance(int page, String title) {
+        user_chat_rooms fragmentFirst = new user_chat_rooms();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+   //-----------------
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        //
+        page = getArguments().getInt("someInt", 0);
+        title = getArguments().getString("someTitle");
+        //
         rooms_list = new ArrayList<>();
         key_oF=new ArrayList<>();
         PRU=new private_room_users();
