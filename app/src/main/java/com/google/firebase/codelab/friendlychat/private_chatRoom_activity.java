@@ -10,11 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.codelab.friendlychat.models.private_room_msg_room_model;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class private_chatRoom_activity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -44,8 +49,9 @@ public class private_chatRoom_activity extends AppCompatActivity implements Goog
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private EditText mMessageEditText;
-    private String room_link;
+    private String room_link,photo_link;
     private String other_person_name;
+    private  String online_status="offline";
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<private_room_msg_room_model, MessageViewHolder> mFirebaseAdapter;
@@ -67,12 +73,11 @@ public class private_chatRoom_activity extends AppCompatActivity implements Goog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //get room name from bundle
-
         room_link = getIntent().getStringExtra("room_link");
         other_person_name = getIntent().getStringExtra("other_person_name");
-
+        photo_link=getIntent().getStringExtra("other_person_photo");
         setContentView(R.layout.activity_private_chat_room_activity);
-        setTitle(other_person_name);
+        set_customized_action_bar();
         lizationsini();
         mMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -148,5 +153,26 @@ protected void populateViewHolder(MessageViewHolder viewHolder, private_room_msg
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    private void set_customized_action_bar()
+    {
+        //------------------------------------------------
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View mCustomView = mInflater.inflate(R.layout.tittle_bar, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.myTitle);
+        TextView mTitleTextView2 = (TextView) mCustomView.findViewById(R.id.mystatus);
+        CircleImageView img=(CircleImageView)mCustomView.findViewById(R.id.ImageView01);
+        Glide.with(getApplicationContext())
+                .load(photo_link)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(img);
+        mTitleTextView.setText(other_person_name);
+        mTitleTextView2.setText(online_status);
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+        //--------------------------------------------------
     }
 }

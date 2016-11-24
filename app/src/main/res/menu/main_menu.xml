@@ -7,6 +7,6 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/chat_rooms"
-        android:title="@string/fresh_config"
+        android:title="PVC"
         app:showAsAction="never"/>
 </menu>

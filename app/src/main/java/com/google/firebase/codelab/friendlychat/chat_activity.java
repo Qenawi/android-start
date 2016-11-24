@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 public class chat_activity extends AppCompatActivity implements users_list_fragment.OnFragmentInteractionListener, user_chat_rooms.OnFragmentInteractionListener {
     final private String TAG = "chat_activity";
-    private String _email;
+    private String _email,photo;
     private String push_key;
     private DatabaseReference test_curnt_user_list_ref;
     private DatabaseReference mFirebaseDatabaseReference;
@@ -36,9 +36,10 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_activity);
-        setTitle("Chatter");
+        setTitle("ChaTter");
         _email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         viewPager=(ViewPager)findViewById(R.id.pager);
@@ -48,8 +49,10 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
     }
 
     @Override
-    public void onFragmentInteraction_user_list(String uri, String name) {
+    public void onFragmentInteraction_user_list(String uri, String name,String photo)
+    {
         //check if room with that user was exist
+        this.photo=photo;
         check_if_chat_room_exist(uri, name);
         //f exist open directly
         // else  creat room with welcome msG and add it To
@@ -59,7 +62,8 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
     }
 
     @Override
-    public void onFragmentInteraction_user_chat_rooms(Uri uri) {
+    public void onFragmentInteraction_user_chat_rooms(Uri uri)
+    {
 // Directly start app
     }
 
@@ -142,6 +146,7 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
         Intent i = new Intent(getApplicationContext(), private_chatRoom_activity.class);
         i.putExtra("room_link", c.getUid());
         i.putExtra("other_person_name", name);
+        i.putExtra("other_person_photo", photo);
         startActivity(i);
 
     }
@@ -272,8 +277,10 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
 
         // Returns the page title for the top indicator
         @Override
-        public CharSequence getPageTitle(int position) {
-            return "Page " + position;
+        public CharSequence getPageTitle(int position)
+        {
+            if(position ==0){return "Fiends"; }
+            return "Chats";
         }
 
     }//pager adapter

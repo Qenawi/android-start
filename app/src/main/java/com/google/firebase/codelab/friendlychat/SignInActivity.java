@@ -96,7 +96,9 @@ public class SignInActivity extends AppCompatActivity implements
                 break;
         }
     }
-    private void signIn() {
+    private void signIn()
+    {
+        Toast.makeText(this, "Google Play Services 1", Toast.LENGTH_SHORT).show();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -111,23 +113,32 @@ public class SignInActivity extends AppCompatActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Toast.makeText(this, "Google Play Services error 2", Toast.LENGTH_SHORT).show();
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN)
         {
+
+            Toast.makeText(this, "Google Play Services error 21", Toast.LENGTH_SHORT).show();
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
+            if (result.isSuccess())
+            {
+
+                Toast.makeText(this, "Google Play Services error 22", Toast.LENGTH_SHORT).show();
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            } else {
+            }
+            else {
                 // Google Sign In failed
+
+                Toast.makeText(this, "Google Play Services error 23", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Google Sign In failed.");
             }
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
     {
+        Toast.makeText(this, "Google Play Services error  4  ", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
@@ -139,13 +150,16 @@ public class SignInActivity extends AppCompatActivity implements
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
+                        {
+
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
+                            Toast.makeText(getApplicationContext(), "Google Play Services error. 9", Toast.LENGTH_SHORT).show();
                             PG.setVisibility(View.VISIBLE);
                             PG.setVisibility(View.DRAWING_CACHE_QUALITY_HIGH);
                             add_user_data();
@@ -157,6 +171,7 @@ public class SignInActivity extends AppCompatActivity implements
     }
  public  void add_user_data( )
  {
+     Toast.makeText(this, "Google Play Services error  5", Toast.LENGTH_SHORT).show();
      Toast.makeText(SignInActivity.this,"1", Toast.LENGTH_SHORT).show();
      dp_ref=FirebaseDatabase.getInstance().getReference().child("users");
      try {
@@ -193,6 +208,7 @@ public class SignInActivity extends AppCompatActivity implements
  }// add_user_data
   void add_user_helper()
   {
+      Toast.makeText(this, "Google Play Services error 6", Toast.LENGTH_SHORT).show();
       try {
           user = new users_data_modle(mFirebaseAuth.getCurrentUser().getEmail(), mFirebaseAuth.getCurrentUser().getDisplayName(), mFirebaseAuth.getCurrentUser().getPhotoUrl().toString());
           dp_ref.push().setValue(user);

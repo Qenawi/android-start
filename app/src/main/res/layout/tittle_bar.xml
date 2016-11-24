@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ImageView01"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_account_circle_black_36dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+
+            android:id="@+id/myTitle"
+            android:text="This is my new title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textColor="#ff0000"
+            />
+        <TextView
+
+            android:id="@+id/mystatus"
+            android:text="online"
+            android:layout_width="fill_parent"
+            android:textAlignment="center"
+            android:layout_height="fill_parent"
+            android:textColor="#f5ffffff"
+            />
+    </LinearLayout>
+
+</LinearLayout>

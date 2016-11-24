@@ -16,12 +16,15 @@ import com.google.firebase.codelab.friendlychat.models.users_data_modle;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class users_list_fragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     ListView user_list;
+    private ArrayList<String>photo_url_list;
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<users_data_modle> mlistadapter;
     public static final String users = "users";
@@ -51,6 +54,7 @@ private String title;
         //
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
+        photo_url_list=new ArrayList<>();
         //
     }
 
@@ -61,12 +65,14 @@ private String title;
         user_list = (ListView) root.findViewById(R.id.user_list);
         mlistadapter = new FirebaseListAdapter<users_data_modle>(getActivity(), users_data_modle.class, R.layout.item_message, mFirebaseDatabaseReference.child(users)) {
             @Override
-            protected void populateView(View itemView, users_data_modle s, int position) {
+            protected void populateView(View itemView, users_data_modle s, int position)
+            {
                 messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
                 messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
                 messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
                 messageTextView.setText(s.getName());
                 messengerTextView.setText(s.getEmail());
+                photo_url_list.set(position,s.getPhoto_url());
                 Glide.with(getActivity())
                         .load(s.getPhoto_url())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -81,19 +87,18 @@ private String title;
 
            TextView tex= (TextView)view.findViewById(R.id.messengerTextView);
                 TextView tex2= (TextView)view.findViewById(R.id.messageTextView);
-           notify_chat_activity(tex.getText().toString(),tex2.getText().toString());
-
+           notify_chat_activity(tex.getText().toString(),tex2.getText().toString(),photo_url_list.get(position));
             }
         });
         return root;
     }
 
 
-    public void notify_chat_activity(String chosen_email,String name)
+    public void notify_chat_activity(String chosen_email,String name,String photo_link)
     {
         if (mListener != null)
         {
-            mListener.onFragmentInteraction_user_list(chosen_email,name);
+            mListener.onFragmentInteraction_user_list(chosen_email,name,photo_link);
         }
     }
 
@@ -116,6 +121,6 @@ private String title;
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction_user_list(String uri,String name);
+        public void onFragmentInteraction_user_list(String uri,String name,String photo_link);
     }
 }
