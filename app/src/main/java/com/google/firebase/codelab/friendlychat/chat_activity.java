@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 public class chat_activity extends AppCompatActivity implements users_list_fragment.OnFragmentInteractionListener, user_chat_rooms.OnFragmentInteractionListener {
     final private String TAG = "chat_activity";
-    private String _email,photo;
+    private String _email,photo,other_person_email;
     private String push_key;
     private DatabaseReference test_curnt_user_list_ref;
     private DatabaseReference mFirebaseDatabaseReference;
@@ -54,12 +54,11 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
     {
         //check if room with that user was exist
         this.photo=photo;
+        other_person_email=uri;
         check_if_chat_room_exist(uri, name);
         //f exist open directly
         // else  creat room with welcome msG and add it To
         // email To id
-
-
     }
 
     @Override
@@ -148,6 +147,7 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
         i.putExtra("room_link", c.getUid());
         i.putExtra("other_person_name", name);
         i.putExtra("other_person_photo", photo);
+        i.putExtra("other_person_email", other_person_email);
         startActivity(i);
 
     }

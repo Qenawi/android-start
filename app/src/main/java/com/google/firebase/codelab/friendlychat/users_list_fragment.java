@@ -71,7 +71,7 @@ private String title;
                 messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
                 messageTextView.setText(s.getName());
                 messengerTextView.setText(s.getEmail());
-                photo_url_list.put(position,s.getPhoto_url());
+                photo_url_list.put(position, s.getPhoto_url());
                 Glide.with(getActivity())
                         .load(s.getPhoto_url())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)

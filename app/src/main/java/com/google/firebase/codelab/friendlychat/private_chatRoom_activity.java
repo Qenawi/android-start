@@ -23,8 +23,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.codelab.friendlychat.models.private_room_msg_room_model;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,7 +43,7 @@ public class private_chatRoom_activity extends AppCompatActivity implements Goog
             messengerTextView = (TextView) itemView.findViewById(android.R.id.text2);
         }
     }
-
+    private   android.support.v7.app.ActionBar mActionBar;
     private static final String TAG = "private_chatRoom_";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 10;
     private String mUsername;
@@ -50,7 +53,7 @@ public class private_chatRoom_activity extends AppCompatActivity implements Goog
     private LinearLayoutManager mLinearLayoutManager;
     private EditText mMessageEditText;
     private String room_link,photo_link;
-    private String other_person_name;
+    private String other_person_name,other_person_email;
     private  String online_status="offline";
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
@@ -76,6 +79,7 @@ public class private_chatRoom_activity extends AppCompatActivity implements Goog
         room_link = getIntent().getStringExtra("room_link");
         other_person_name = getIntent().getStringExtra("other_person_name");
         photo_link=getIntent().getStringExtra("other_person_photo");
+        other_person_email=getIntent().getStringExtra("other_person_email");
         setContentView(R.layout.activity_private_chat_room_activity);
         set_customized_action_bar();
         lizationsini();
@@ -147,6 +151,7 @@ protected void populateViewHolder(MessageViewHolder viewHolder, private_room_msg
                 mMessageEditText.setText("");
             }
         });//on Click listener
+        get_curnt_statues();
     }//on create
 
 
@@ -157,7 +162,7 @@ protected void populateViewHolder(MessageViewHolder viewHolder, private_room_msg
     private void set_customized_action_bar()
     {
         //------------------------------------------------
-        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+       mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -174,5 +179,26 @@ protected void populateViewHolder(MessageViewHolder viewHolder, private_room_msg
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         //--------------------------------------------------
+    }
+    void get_curnt_statues()
+    {
+        String _email;
+        int pos=other_person_email.indexOf("@");
+        _email=other_person_email.substring(0,pos+1);
+        final DatabaseReference fdp= FirebaseDatabase.getInstance().getReference();
+        fdp.child("statues").child(_email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+              online_status= dataSnapshot.getValue().toString();
+                set_customized_action_bar();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
