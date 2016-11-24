@@ -16,7 +16,8 @@ import com.google.firebase.codelab.friendlychat.models.users_data_modle;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -24,7 +25,7 @@ public class users_list_fragment extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
     ListView user_list;
-    private ArrayList<String>photo_url_list;
+    Map  <Integer, String> photo_url_list = new HashMap<>();
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseListAdapter<users_data_modle> mlistadapter;
     public static final String users = "users";
@@ -54,9 +55,7 @@ private String title;
         //
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
-        photo_url_list=new ArrayList<>();
-        //
-    }
+        }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +71,7 @@ private String title;
                 messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
                 messageTextView.setText(s.getName());
                 messengerTextView.setText(s.getEmail());
-                photo_url_list.set(position,s.getPhoto_url());
+                photo_url_list.put(position,s.getPhoto_url());
                 Glide.with(getActivity())
                         .load(s.getPhoto_url())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -123,4 +122,5 @@ private String title;
         // TODO: Update argument type and name
         public void onFragmentInteraction_user_list(String uri,String name,String photo_link);
     }
+
 }

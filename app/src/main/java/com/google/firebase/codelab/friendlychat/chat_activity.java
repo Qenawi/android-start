@@ -45,6 +45,7 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
         viewPager=(ViewPager)findViewById(R.id.pager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapterViewPager);
+        set_online(_email);
         //  replace();
     }
 
@@ -284,4 +285,26 @@ public class chat_activity extends AppCompatActivity implements users_list_fragm
         }
 
     }//pager adapter
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        set_offline(_email);
+    }
+    void set_offline(String _email )
+    {
+        int pos=_email.indexOf("@");
+        _email=_email.substring(0,pos+1);
+        final DatabaseReference fdp= FirebaseDatabase.getInstance().getReference();
+        fdp.child("statues").child(_email).setValue("offline");
+    }
+
+    void set_online(String _email)
+    {
+        int pos=_email.indexOf("@");
+        _email=_email.substring(0,pos+1);
+        final DatabaseReference fdp= FirebaseDatabase.getInstance().getReference();
+        fdp.child("statues").child(_email).setValue("online");
+    }
 }// chat ctivity class
